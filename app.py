@@ -142,6 +142,106 @@ with app.app_context():
 # ------------------------
 
 
+
+
+
+@app.route('/booking', methods=['GET', 'POST'])
+def booking():
+    if 'user_id' not in session:
+        flash('Iltimos, avval tizimga kiring!', 'warning')
+        return redirect(url_for('login'))
+    
+    if request.method == 'POST':
+        try:
+            booking_datetime = datetime.strptime(
+                f"{request.form['date']} {request.form['time']}", 
+                "%Y-%m-%d %H:%M"
+            )
+            
+            if booking_datetime < datetime.now():
+                flash('Siz o\'tgan vaqt uchun stol band qila olmaysiz!', 'danger')
+                return redirect(url_for('booking'))
+            
+            # Stol band qilishni tekshirish
+            existing_booking = TableBooking.query.filter(
+                TableBooking.table_id == request.form['table_id'],
+                TableBooking.booking_datetime.between(
+                    booking_datetime - timedelta(hours=2),
+                    booking_datetime + timedelta(hours=2)
+                ),
+                TableBooking.status.in_(['pending', 'confirmed'])
+            ).first()
+            
+            if existing_booking:
+                flash('Ushbu vaqtda stol band! Iltimos, boshqa vaqt tanlang.', 'danger')
+                return redirect(url_for('booking'))
+            
+            new_booking = TableBooking(
+                user_id=session['user_id'],
+                table_id=request.form['table_id'],
+                name=request.form['name'],
+                phone=request.form['phone'],
+                booking_datetime=booking_datetime,
+                guests=request.form['guests'],
+                notes=request.form.get('notes', ''),
+                status='pending'
+            )
+            
+            db.session.add(new_booking)
+            db.session.commit()
+            flash('Stol muvaffaqiyatli band qilindi! Tez orada siz bilan bog\'lanamiz.', 'success')
+            return redirect(url_for('index'))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Xatolik yuz berdi: {str(e)}', 'danger')
+    
+    # GET so'rovi uchun
+    tables = RestaurantTable.query.all()
+    now = datetime.now()
+    
+    # Har bir stolning bandligini tekshirish
+    for table in tables:
+        table.reserved = TableBooking.query.filter(
+            TableBooking.table_id == table.id,
+            TableBooking.booking_datetime.between(
+                now,
+                now + timedelta(hours=2)
+            ),
+            TableBooking.status.in_(['pending', 'confirmed'])
+        ).first() is not None
+    
+    return render_template('booking.html', tables=tables)
+@app.route('/api/book_table', methods=['POST'])
+def api_book_table():
+    if 'user_id' not in session:
+        return jsonify({'success': False, 'message': 'Iltimos, avval tizimga kiring!'})
+    
+    try:
+        data = request.get_json()
+        booking_datetime = datetime.strptime(
+            f"{data['date']} {data['time']}", 
+            "%Y-%m-%d %H:%M"
+        )
+        
+        booking = TableBooking(
+            user_id=session['user_id'],
+            table_id=data['table_id'],
+            name=data['name'],
+            phone=data['phone'],
+            booking_datetime=booking_datetime,
+            guests=data['guests'],
+            notes=data.get('notes', ''),
+            status='confirmed'
+        )
+        db.session.add(booking)
+        db.session.commit()
+        return jsonify({'success': True, 'message': 'Stol muvaffaqiyatli band qilindi!'})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'success': False, 'message': str(e)}), 400
+
+
 @app.route('/admin/products')
 def admin_products():
     if 'user_id' not in session or not session.get('is_admin'):
