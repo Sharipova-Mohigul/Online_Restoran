@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="hero-section text-center py-5 bg-light">
+    <div class="container">
+        <h1 class="display-4">Xush kelibsiz MOSEMAOR restoraniga!</h1>
+        <p class="lead">O'zbek milliy taomlarining eng yaxshi namunalari</p>
+        <a href="{{ url_for('menu') }}" class="btn btn-primary btn-lg mt-3">Menyuni ko'rish</a>
+    </div>
+</div>
+<section class="categories py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Menyu kategoriyalari</h2>
+        <div class="row">
+            {% for category in categories %}
+            <div class="col-md-2 mb-3">
+                <a href="{{ url_for('menu') }}#{{ category.name }}" class="text-decoration-none">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ category.name }}</h5>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="featured-products py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Tavsiya etilgan taomlar</h2>
+        <div class="row">
+            {% for product in featured_products %}
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <img src="{{ url_for('static', filename='images/products/' + product.image) }}" class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ product.name }}</h5>
+                        <p class="card-text">{{ product.description }}</p>
+                        <p class="text-primary fw-bold">{{ product.price }} so'm</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}
