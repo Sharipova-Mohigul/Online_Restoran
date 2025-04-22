@@ -140,6 +140,236 @@ with app.app_context():
 # ------------------------
 # Routes
 # ------------------------
+@app.route('/')
+def index():
+    categories = Category.query.all()
+    featured_products = Product.query.order_by(db.func.random()).limit(4).all()
+    return render_template('index.html', 
+                         categories=categories, 
+                         featured_products=featured_products)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+        
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session['is_admin'] = user.is_admin
+            flash('Muvaffaqiyatli kirildi!', 'success')
+            return redirect(url_for('index'))
+        flash('Login yoki parol noto\'g\'ri!', 'danger')
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        
+        if password != confirm_password:
+            flash('Parollar mos kelmadi!', 'danger')
+            return redirect(url_for('register'))
+        
+        if User.query.filter((User.email == email) | (User.username == username)).first():
+            flash('Bu email yoki foydalanuvchi nomi band!', 'danger')
+            return redirect(url_for('register'))
+        
+        db.session.add(User(
+            username=username,
+            email=email,
+            password=generate_password_hash(password, method='sha256'),
+            is_admin=False
+        ))
+        db.session.commit()
+        flash('Muvaffaqiyatli ro\'yxatdan o\'tdingiz! Endi kirishingiz mumkin.', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html')
+
+@app.route('/menu')
+def menu():
+    categories = Category.query.all()
+    return render_template('menu.html', categories=categories)
+
+
+
+@app.route('/cart', methods=['GET', 'POST'])
+def view_cart():
+    if 'user_id' not in session:
+        flash('Iltimos, avval tizimga kiring!', 'warning')
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        # Buyurtmani tasdiqlash
+        cart = request.form.get('cart')
+        if not cart:
+            flash('Savat bo\'sh!', 'danger')
+            return redirect(url_for('menu'))
+        
+        try:
+            cart_data = json.loads(cart)
+            total_amount = sum(item['price'] * item['quantity'] for item in cart_data)
+            
+            # Yangi buyurtma yaratish
+            order = Order(
+                user_id=session['user_id'],
+                status='pending',
+                total_amount=total_amount
+            )
+            db.session.add(order)
+            db.session.flush()
+            
+            # Buyurtma elementlarini qo'shish
+            for item in cart_data:
+                product = Product.query.get(item['id'])
+                if product:
+                    db.session.add(OrderItem(
+                        order_id=order.id,
+                        product_id=product.id,
+                        quantity=item['quantity'],
+                        price=product.price
+                    ))
+            
+            db.session.commit()
+            flash('Buyurtma muvaffaqiyatli qabul qilindi!', 'success')
+            return redirect(url_for('index'))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Xatolik yuz berdi: {str(e)}', 'danger')
+    
+    return render_template('cart.html')@app.route('/')
+def index():
+    categories = Category.query.all()
+    featured_products = Product.query.order_by(db.func.random()).limit(4).all()
+    return render_template('index.html', 
+                         categories=categories, 
+                         featured_products=featured_products)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        user = User.query.filter_by(email=email).first()
+        
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id
+            session['username'] = user.username
+            session['is_admin'] = user.is_admin
+            flash('Muvaffaqiyatli kirildi!', 'success')
+            return redirect(url_for('index'))
+        flash('Login yoki parol noto\'g\'ri!', 'danger')
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
+        
+        if password != confirm_password:
+            flash('Parollar mos kelmadi!', 'danger')
+            return redirect(url_for('register'))
+        
+        if User.query.filter((User.email == email) | (User.username == username)).first():
+            flash('Bu email yoki foydalanuvchi nomi band!', 'danger')
+            return redirect(url_for('register'))
+        
+        db.session.add(User(
+            username=username,
+            email=email,
+            password=generate_password_hash(password, method='sha256'),
+            is_admin=False
+        ))
+        db.session.commit()
+        flash('Muvaffaqiyatli ro\'yxatdan o\'tdingiz! Endi kirishingiz mumkin.', 'success')
+        return redirect(url_for('login'))
+    return render_template('register.html')
+
+@app.route('/menu')
+def menu():
+    categories = Category.query.all()
+    return render_template('menu.html', categories=categories)
+
+
+
+@app.route('/cart', methods=['GET', 'POST'])
+def view_cart():
+    if 'user_id' not in session:
+        flash('Iltimos, avval tizimga kiring!', 'warning')
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        # Buyurtmani tasdiqlash
+        cart = request.form.get('cart')
+        if not cart:
+            flash('Savat bo\'sh!', 'danger')
+            return redirect(url_for('menu'))
+        
+        try:
+            cart_data = json.loads(cart)
+            total_amount = sum(item['price'] * item['quantity'] for item in cart_data)
+            
+            # Yangi buyurtma yaratish
+            order = Order(
+                user_id=session['user_id'],
+                status='pending',
+                total_amount=total_amount
+            )
+            db.session.add(order)
+            db.session.flush()
+            
+            # Buyurtma elementlarini qo'shish
+            for item in cart_data:
+                product = Product.query.get(item['id'])
+                if product:
+                    db.session.add(OrderItem(
+                        order_id=order.id,
+                        product_id=product.id,
+                        quantity=item['quantity'],
+                        price=product.price
+                    ))
+            
+            db.session.commit()
+            flash('Buyurtma muvaffaqiyatli qabul qilindi!', 'success')
+            return redirect(url_for('index'))
+            
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Xatolik yuz berdi: {str(e)}', 'danger')
+    
+    return render_template('cart.html')
+@app.route('/api/update_cart', methods=['POST'])
+def update_cart():
+    try:
+        cart = request.get_json()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Siz tizimdan chiqdingiz.', 'info')
+    return redirect(url_for('index'))@app.route('/api/update_cart', methods=['POST'])
+def update_cart():
+    try:
+        cart = request.get_json()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)}), 400
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('Siz tizimdan chiqdingiz.', 'info')
+    return redirect(url_for('index'))
 @app.route('/menu')
 def menu():
     categories = Category.query.all()

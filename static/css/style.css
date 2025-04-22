@@ -1,0 +1,269 @@
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.card {
+    transition: transform 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.category-section {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-section p {
+        font-size: 1rem;
+    }
+    
+    .card-img-top {
+        height: 150px;
+    }
+}
+/* Restoran fon va stol band qilish stil */
+.restaurant-background {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('../images/restaurant-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+    padding: 20px 0;
+}
+
+.restaurant-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.restaurant-area {
+    width: 600px;
+    height: 500px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.windows {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(90deg, 
+        transparent 10%, 
+        rgba(173, 216, 230, 0.7) 10%, 
+        rgba(173, 216, 230, 0.7) 90%, 
+        transparent 90%);
+}
+
+.door {
+    position: absolute;
+    bottom: 0;
+    right: 100px;
+    width: 80px;
+    height: 120px;
+    background-color: #8B4513;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.tables-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 120px 30px 30px;
+    height: 100%;
+}
+
+.table {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+    border: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.table:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.table.selected {
+    border-color: #4CAF50;
+    background-color: #e8f5e9;
+}
+
+.table.reserved {
+    background-color: #ffebee;
+    border-color: #f44336;
+    cursor: not-allowed;
+}
+
+.table-number {
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.table-capacity {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.table-status {
+    font-size: 0.8rem;
+    margin-top: 5px;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.table:not(.reserved) .table-status {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.table.reserved .table-status {
+    background-color: #f44336;
+    color: white;
+}
+
+.booking-form-container {
+    width: 400px;
+}
+
+.booking-form-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .restaurant-area {
+        width: 100%;
+        height: 400px;
+    }
+    
+    .booking-form-container {
+        width: 100%;
+    }
+}
+/* Buyurtma tugmasi va savat stil */
+.order-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.order-btn:hover {
+    background-color: #45a049;
+}
+
+
+.cart-counter {
+    display: none;
+    background-color: #f44336;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 4px;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.toast-notification.show {
+    opacity: 1;
+}
+
+/* Modal oynasi uchun stil */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1001;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+}
+
+.close-modal {
+    float: right;
+    font-size: 24px;
+    cursor: pointer;
+}
