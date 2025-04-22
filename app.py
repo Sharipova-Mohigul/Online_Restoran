@@ -102,7 +102,7 @@ with app.app_context():
             ('Qozon kabob', 'Fast food', 32000, 'Fast food (milliy)', 'qozonkabob.jpg'),
             ('Achchiq salat', 'Salat', 12000, 'Salatlar', 'salad.jpg'),
             ('Sabzavotli salat', 'Salat', 10000, 'Salatlar', 'vegsalad.jpg'),
-            ('Qatiqli salat', 'Salat', 11000, 'Salatlar', 'yogurt_salad.jpg')
+            ('Qatiqli salat', 'Salat', 11000, 'Salatlar', 'c')
         ]
         
         for name, description, price, category_name, image in products:
