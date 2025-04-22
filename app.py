@@ -140,7 +140,10 @@ with app.app_context():
 # ------------------------
 # Routes
 # ------------------------
-
+@app.route('/menu')
+def menu():
+    categories = Category.query.all()
+    return render_template('menu.html', categories=categories)
 
 
 

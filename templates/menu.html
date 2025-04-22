@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="menu-page py-5">
+    <div class="container">
+        <h1 class="text-center mb-5">Menyu</h1>
+        
+        <div class="text-end mb-4">
+            <a href="{{ url_for('view_cart') }}" class="btn btn-primary">
+                Savat <span class="cart-counter"></span>
+            </a>
+        </div>
+        
+        {% for category in categories %}
+        <div class="category-section mb-5" id="{{ category.name }}">
+            <h2 class="mb-4">{{ category.name }}</h2>
+            <div class="row">
+                {% for product in category.products %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ url_for('static', filename='images/products/' + product.image) }}" 
+                             class="card-img-top" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <p class="text-primary fw-bold">{{ product.price }} so'm</p>
+                            <button class="order-btn" 
+                                    data-product-id="{{ product.id }}"
+                                    data-product-name="{{ product.name }}"
+                                    data-product-price="{{ product.price }}">
+                                Buyurtma berish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Modal oynasi -->
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Savatdagi mahsulotlar</h3>
+        <div id="cartItems"></div>
+        <button id="checkoutBtn" class="btn btn-primary mt-3">Buyurtmani tasdiqlash</button>
+    </div>
+</div>
+{% endblock %}
