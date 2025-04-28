@@ -1,0 +1,99 @@
+/* Filliallar sahifasi uchun stil */
+.branches {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+}
+
+.branch-finder {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.branch-search {
+    display: flex;
+    gap: 1rem;
+}
+
+#location-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.branches-map {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.branch-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.branch-item {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.branch-item:hover {
+    transform: translateY(-5px);
+}
+
+.branch-item h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.branch-item p {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+.branch-item i {
+    width: 20px;
+    color: var(--primary-color);
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+/* Telegram xabarlari uchun stil */
+.telegram-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #0088cc;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    animation: slideIn 0.5s forwards;
+}
+
+.telegram-notification i {
+    font-size: 1.5rem;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="order-section">
+    <h2>Buyurtma berish</h2>
+    
+    <div class="order-container">
+        <div class="order-summary">
+            <h3>Buyurtma tafsilotlari</h3>
+            <div class="order-items">
+                {% for item in items %}
+                <div class="order-item">
+                    <span class="item-name">{{ item.name }} × {{ item.quantity }}</span>
+                    <span class="item-price">{{ item.subtotal }} so'm</span>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="order-totals">
+                <div class="total-row">
+                    <span>Mahsulotlar:</span>
+                    <span>{{ total }} so'm</span>
+                </div>
+                <div class="total-row">
+                    <span>Yetkazib berish:</span>
+                    <span>15 000 so'm</span>
+                </div>
+                <div class="total-row grand-total">
+                    <span>Jami:</span>
+                    <span>{{ total + 15000 }} so'm</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="order-form">
+            <form method="POST" action="{{ url_for('submit_order') }}">
+                <h3>Yetkazib berish ma'lumotlari</h3>
+                
+                <div class="form-group">
+                    <label for="name">Ism familiya</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Telefon raqam</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Yetkazib berish manzili</label>
+                    <textarea id="address" name="address" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="payment">To'lov usuli</label>
+                    <select id="payment" name="payment" required>
+                        <option value="">Tanlang</option>
+                        <option value="cash">Naqd pul</option>
+                        <option value="card">Karta orqali</option>
+                        <option value="click">Click</option>
+                        <option value="payme">Payme</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Qo'shimcha izohlar (ixtiyoriy)</label>
+                    <textarea id="notes" name="notes" rows="2"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Buyurtmani tasdiqlash</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

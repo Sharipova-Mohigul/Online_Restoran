@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="cart-section">
+    <h2>Sizning savatchangiz</h2>
+    
+    {% if not items %}
+    <div class="empty-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <p>Sizning savatchangiz bo'sh</p>
+        <a href="{{ url_for('menu') }}" class="btn">Menyuni ko'rish</a>
+    </div>
+    {% else %}
+    <div class="cart-items">
+        <div class="cart-header">
+            <div class="header-item">Mahsulot</div>
+            <div class="header-item">Narxi</div>
+            <div class="header-item">Miqdori</div>
+            <div class="header-item">Jami</div>
+            <div class="header-item"></div>
+        </div>
+        
+        {% for item in items %}
+        <div class="cart-item">
+            <div class="product-info">
+                <img src="{{ url_for('static', filename='images/menu/' + item.image) }}" alt="{{ item.name }}">
+                <div>
+                    <h4>{{ item.name }}</h4>
+                    <p>{{ item.description }}</p>
+                </div>
+            </div>
+            <div class="product-price">{{ item.price }} so'm</div>
+            <div class="product-quantity">
+                <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, -1)">-</button>
+                <span>{{ item.quantity }}</span>
+                <button class="quantity-btn" onclick="updateQuantity({{ item.id }}, 1)">+</button>
+            </div>
+            <div class="product-total">{{ item.subtotal }} so'm</div>
+            <div class="product-remove">
+                <button class="remove-btn" onclick="removeItem({{ item.id }})">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+        
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span>Jami:</span>
+                <span>{{ total }} so'm</span>
+            </div>
+            <div class="summary-row">
+                <span>Yetkazib berish:</span>
+                <span>15 000 so'm</span>
+            </div>
+            <div class="summary-row total">
+                <span>Umumiy summa:</span>
+                <span>{{ total + 15000 }} so'm</span>
+            </div>
+            
+            <a href="{{ url_for('order') }}" class="btn btn-primary">Buyurtma berish</a>
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function updateQuantity(itemId, change) {
+    fetch('/update_cart/' + itemId + '/' + change, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    });
+}
+
+function removeItem(itemId) {
+    if (confirm('Haqiqatan ham ushbu mahsulotni olib tashlamoqchimisiz?')) {
+        fetch('/remove_from_cart/' + itemId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            }
+        });
+    }
+}
+</script>
+{% endblock %}

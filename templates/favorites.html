@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="favorites-section">
+    <h2>Sizning sevimli taomlaringiz</h2>
+    
+    {% if not items %}
+        <div class="empty-favorites">
+            <i class="fas fa-heart-broken"></i>
+            <p>Sizda hali sevimli taomlar yo'q</p>
+            <a href="{{ url_for('menu') }}" class="btn">Menyuni ko'rish</a>
+        </div>
+    {% else %}
+        <div class="favorites-grid">
+            {% for item in items %}
+            <div class="favorite-item">
+                <img src="{{ url_for('static', filename='images/menu/' + item.image) }}" alt="{{ item.name }}">
+                <div class="item-info">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.price }} so'm</p>
+                    <div class="actions">
+                        <a href="{{ url_for('add_to_cart', item_id=item.id) }}" class="btn">
+                            <i class="fas fa-shopping-cart"></i> Savatchaga
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

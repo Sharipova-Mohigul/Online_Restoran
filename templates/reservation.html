@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="reservation-section">
+    <h2>Stol band qilish</h2>
+    
+    <div class="reservation-container">
+        <div class="restaurant-map">
+            <h3>Restoran tartibi</h3>
+            <div class="floor-plan">
+                <!-- Asosiy restoran maketi -->
+                <img src="{{ url_for('static', filename='images/restaurant_floor_plan.jpg') }}" alt="Restoran tartibi" class="floor-image">
+                
+                <!-- Stol elementlari -->
+                {% for table in tables %}
+                <div class="table table-{{ table.id }} {% if table.reserved %}reserved{% else %}available{% endif %}" 
+                     data-id="{{ table.id }}"
+                     data-seats="{{ table.seats }}"
+                     data-position="{{ table.position }}"
+                     style="left: {{ table.position[0] }}%; top: {{ table.position[1] }}%">
+                    <div class="table-shape table-{{ table.shape }}"></div>
+                    <div class="table-info">
+                        <span class="table-number">{{ table.id }}</span>
+                        <span class="table-seats">{{ table.seats }} o'rin</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="table-legenda">
+                <div class="legend-item">
+                    <div class="legend-color available"></div>
+                    <span>Bo'sh stol</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color reserved"></div>
+                    <span>Band stol</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color selected"></div>
+                    <span>Siz tanlagan</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="reservation-form-container">
+            <form method="POST" class="reservation-form">
+                <input type="hidden" name="table_id" id="table_id" value="">
+                
+                <div class="form-group">
+                    <label for="name">Ismingiz</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Telefon raqamingiz</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="date">Sana</label>
+                        <input type="date" id="date" name="date" min="{{ today }}" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="time">Vaqt</label>
+                        <select id="time" name="time" required>
+                            <option value="">Tanlang</option>
+                            {% for time_slot in time_slots %}
+                            <option value="{{ time_slot }}">{{ time_slot }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guests">Mehmonlar soni</label>
+                    <select id="guests" name="guests" required>
+                        <option value="">Tanlang</option>
+                        {% for i in range(1, 11) %}
+                        <option value="{{ i }}">{{ i }} kishi</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Qo'shimcha izohlar (ixtiyoriy)</label>
+                    <textarea id="notes" name="notes" rows="3"></textarea>
+                </div>
+                
+                <div class="form-footer">
+                    <div class="selected-table-info">
+                        <h4>Tanlangan stol:</h4>
+                        <p id="selected-table-display">Stol tanlanmagan</p>
+                        <p id="selected-time-display">Vaqt tanlanmagan</p>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Stolni band qilish</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<div class="modal" id="table-modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3>Stolni tanlash</h3>
+        <div class="modal-body">
+            <div class="table-preview">
+                <div class="table-shape" id="modal-table-shape"></div>
+                <div class="table-details">
+                    <p><strong>Stol raqami:</strong> <span id="modal-table-number"></span></p>
+                    <p><strong>O'rindiqlar soni:</strong> <span id="modal-table-seats"></span></p>
+                    <p><strong>Holati:</strong> <span id="modal-table-status"></span></p>
+                </div>
+            </div>
+            <button class="btn btn-confirm" id="confirm-table">Bu stolni tanlash</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

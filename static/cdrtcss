@@ -1,0 +1,431 @@
+/* umumiy formani markazlashtirish */
+.auth-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+.auth-container {
+    display: flex;
+    width: 80%;
+    max-width: 1200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.auth-image {
+    flex: 1;
+    background: url('{{ url_for("static", filename="images/auth-bg.jpg") }}') no-repeat center center/cover;
+    min-height: 100vh;
+}
+
+.auth-form {
+    flex: 1;
+    padding: 30px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-form h2 {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+}
+
+.social-buttons a {
+    padding: 10px;
+    background-color: #3b5998;
+    border-radius: 5px;
+    margin: 0 5px;
+    color: white;
+    text-decoration: none;
+}
+
+.social-buttons a .fab {
+    font-size: 18px;
+}
+
+.social-buttons .google {
+    background-color: #db4437;
+}
+
+.social-buttons .facebook {
+    background-color: #3b5998;
+}
+
+.social-buttons .telegram {
+    background-color: #0088cc;
+}
+
+.auth-footer {
+    margin-top: 20px;
+    text-align: center;
+}   /* Umumiy stil
+:root {
+    --primary-color: #e67e22;
+    --secondary-color: #d35400;
+    --dark-color: #333;
+    --light-color: #f4f4f4;
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    line-height: 1.6;
+    color: var(--dark-color);
+    background-color: #fff;
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #3498db;
+}
+
+.btn-secondary:hover {
+    background: #2980b9;
+}
+
+/* Header */
+/* header {
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    z-index: 100;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo a {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.nav-links li {
+    margin-left: 2rem;
+}
+
+.nav-links a {
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+}
+
+.burger {
+    display: none;
+    cursor: pointer;
+}
+
+/* Hero section */
+.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+}
+
+#bg-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.hero-content {
+    z-index: 1;
+    padding: 0 1rem;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: fadeInDown 1s ease;
+}
+
+.hero p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    animation: fadeIn 1.5s ease;
+}
+
+/* Menu section */
+.menu-section {
+    padding: 6rem 2rem 2rem;
+}
+
+.category-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.category-buttons .btn {
+    font-size: 1.2rem;
+}
+
+.category-buttons .btn.active {
+    background: var(--secondary-color);
+}
+
+.menu-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.menu-card {
+    perspective: 1000px;
+    height: 400px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.menu-card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-front {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-front img {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+}
+
+.card-front h3 {
+    padding: 1rem 1rem 0;
+    font-size: 1.5rem;
+}
+
+.card-front p {
+    padding: 0.5rem 1rem;
+    color: #666;
+}
+
+.price {
+    margin-top: auto;
+    padding: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.card-back {
+    background: var(--primary-color);
+    color: #fff;
+    transform: rotateY(180deg);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-back h3 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.card-back p {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn-fav, .btn-cart {
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-fav {
+    background: #fff;
+    color: var(--danger-color);
+}
+
+.btn-fav:hover {
+    background: #f8d7da;
+}
+
+.btn-cart {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+.btn-cart:hover {
+    background: #b8451b;
+}
+
+/* Animatsiyalar */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* o'rtaga */
+    justify-content: center; /* vertikal o'rtaga */
+    min-height: 100vh; /* ekran balandligicha */
+    text-align: center;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.frame {
+    border: 2px solid #ccc;
+    padding: 30px;
+    width: 80%;
+    max-width: 600px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+mana to'g'ri bo'ldinmi
