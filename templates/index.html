@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+<<<<<<< HEAD
 <div class="hero-section text-center py-5 bg-light">
     <div class="container">
         <h1 class="display-4">Xush kelibsiz MOSEMAOR restoraniga!</h1>
@@ -21,12 +22,46 @@
                         </div>
                     </div>
                 </a>
+=======
+<!-- Biz haqimizda -->
+<section id="about" class="about">
+    <div class="container">
+        <h2 class="scroll-animate">Biz Haqimizda</h2>
+        <div class="about-content">
+            <div class="about-text scroll-animate">
+                <p>Royal Restoran - bu 2005 yildan beri xizmat ko'rsatib kelayotgan premium restoran. Bizning asosiy maqsadimiz - mijozlarimizga eng yaxshi ta'm va xizmatni taqdim etish.</p>
+                <p>Biz faqatgina tabiiy va sifatli mahsulotlardan foydalanamiz. Har bir taom o'ziga xos retsept bo'yicha tayyorlanadi va mijozlarga eng yaxshi holatda yetkaziladi.</p>
+                <a href="{{ url_for('about') }}" class="btn">Batafsil</a>
+            </div>
+            <div class="about-image scroll-animate">
+                <img src="{{ url_for('static', filename='images/about.jpg') }}" alt="Restoran interyeri">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Xizmatlar -->
+<section id="services" class="services">
+    <div class="container">
+        <h2 class="scroll-animate">Bizning Xizmatlar</h2>
+        <p class="scroll-animate" style="text-align: center; max-width: 800px; margin: 0 auto;">Biz mijozlarimizga turli xil qo'shimcha xizmatlarni taklif etamiz, ular orasida:</p>
+        
+        <div class="services-grid">
+            {% for service in services %}
+            <div class="service-card scroll-animate">
+                <div class="service-icon">
+                    <i class="fas fa-{{ service.icon }}"></i>
+                </div>
+                <h3>{{ service.title }}</h3>
+                <p>{{ service.desc }}</p>
+>>>>>>> d0f18e50451fa2dd30b4ee36125c7bb2b87f523c
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
 
+<<<<<<< HEAD
 <section class="featured-products py-5">
     <div class="container">
         <h2 class="text-center mb-5">Tavsiya etilgan taomlar</h2>
@@ -47,4 +82,36 @@
     </div>
 </section>
 
+=======
+<!-- Menyu namunalari -->
+<section id="menu-preview" class="menu-preview">
+    <div class="container">
+        <h2 class="scroll-animate">Menyudan Namunalar</h2>
+        <p class="scroll-animate" style="text-align: center; max-width: 800px; margin: 0 auto;">Menyumizdagi ba'zi taomlar bilan tanishib chiqing</p>
+        
+        <div class="menu-grid">
+            {% for category in ['breakfast', 'lunch', 'dinner'] %}
+                {% for item in menu_items[category][:2] %}
+                <div class="menu-item scroll-animate" data-category="{{ category }}">
+                    <div class="menu-item-img">
+                        <img src="{{ url_for('static', filename='images/menu/' + item.image) }}" alt="{{ item.name }}">
+                    </div>
+                    <div class="menu-item-content">
+                        <div class="menu-item-header">
+                            <h3 class="menu-item-title">{{ item.name }}</h3>
+                            <span class="menu-item-price">{{ item.price }} so'm</span>
+                        </div>
+                        <p class="menu-item-desc">{{ item.desc }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        
+        <div class="text-center" style="margin-top: 40px;">
+            <a href="{{ url_for('menu') }}" class="btn">To'liq menyuni ko'rish</a>
+        </div>
+    </div>
+</section>
+>>>>>>> d0f18e50451fa2dd30b4ee36125c7bb2b87f523c
 {% endblock %}

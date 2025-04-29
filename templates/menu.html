@@ -1,52 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="menu-page py-5">
-    <div class="container">
-        <h1 class="text-center mb-5">Menyu</h1>
-        
-        <div class="text-end mb-4">
-            <a href="{{ url_for('view_cart') }}" class="btn btn-primary">
-                Savat <span class="cart-counter"></span>
-            </a>
-        </div>
-        
+<section class="menu-section">
+    <h2>Bizning Menyu</h2>
+    
+    <div class="category-buttons">
         {% for category in categories %}
-        <div class="category-section mb-5" id="{{ category.name }}">
-            <h2 class="mb-4">{{ category.name }}</h2>
-            <div class="row">
-                {% for product in category.products %}
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="{{ url_for('static', filename='images/products/' + product.image) }}" 
-                             class="card-img-top" alt="{{ product.name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <p class="text-primary fw-bold">{{ product.price }} so'm</p>
-                            <button class="order-btn" 
-                                    data-product-id="{{ product.id }}"
-                                    data-product-name="{{ product.name }}"
-                                    data-product-price="{{ product.price }}">
-                                Buyurtma berish
-                            </button>
-                        </div>
+            <a href="{{ url_for('menu') }}?category={{ category }}" 
+               class="btn {% if category == active_category %}active{% endif %}">
+                {% if category == 'taomlar' %}🍛{% elif category == 'shirinliklar' %}🧁{% else %}🥤{% endif %}
+                {{ category|capitalize }}
+            </a>
+        {% endfor %}
+    </div>
+    
+    <div class="menu-items">
+        {% for item in items %}
+        <div class="menu-card">
+            <div class="card-inner">
+                <div class="card-front">
+                    <img src="{{ url_for('static', filename='images/menu/' + item.image) }}" alt="{{ item.name }}">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.description }}</p>
+                    <div class="price">{{ item.price }} so'm</div>
+                </div>
+                <div class="card-back">
+                    <h3>{{ item.name }}</h3>
+                    <p>{{ item.description }}</p>
+                    <div class="actions">
+                        <a href="{{ url_for('add_to_favorites', item_id=item.id) }}" class="btn-fav">
+                            <i class="fas fa-heart"></i> Sevimli
+                        </a>
+                        <a href="{{ url_for('add_to_cart', item_id=item.id) }}" class="btn-cart">
+                            <i class="fas fa-shopping-cart"></i> Savatcha
+                        </a>
                     </div>
                 </div>
-                {% endfor %}
             </div>
         </div>
         {% endfor %}
     </div>
-</div>
-
-<!-- Modal oynasi -->
-<div id="orderModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal">&times;</span>
-        <h3>Savatdagi mahsulotlar</h3>
-        <div id="cartItems"></div>
-        <button id="checkoutBtn" class="btn btn-primary mt-3">Buyurtmani tasdiqlash</button>
-    </div>
-</div>
+</section>
 {% endblock %}

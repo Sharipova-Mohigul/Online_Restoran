@@ -1,0 +1,228 @@
+/* Stol band qilish sahifasi uchun maxsus stil */
+.reservation-container {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.restaurant-map {
+    flex: 1;
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.floor-plan {
+    position: relative;
+    margin-top: 1rem;
+    height: 500px;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.floor-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.table {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.table:hover {
+    transform: scale(1.1);
+}
+
+.table-shape {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(46, 204, 113, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.table.available .table-shape {
+    background: rgba(46, 204, 113, 0.7); /* Yashil - bo'sh */
+}
+
+.table.reserved .table-shape {
+    background: rgba(231, 76, 60, 0.7); /* Qizil - band */
+}
+
+.table.selected .table-shape {
+    background: rgba(52, 152, 219, 0.9); /* Ko'k - tanlangan */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.5);
+}
+
+.table-info {
+    position: absolute;
+    bottom: -25px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #333;
+}
+
+.table-number {
+    font-weight: bold;
+    display: block;
+}
+
+.table-seats {
+    font-size: 0.7rem;
+    display: block;
+}
+
+/* Stol shakllari */
+.table-shape.small {
+    width: 50px;
+    height: 50px;
+}
+
+.table-shape.medium {
+    width: 70px;
+    height: 70px;
+}
+
+.table-shape.large {
+    width: 90px;
+    height: 90px;
+}
+
+.table-shape.rect {
+    border-radius: 10%;
+}
+
+.table-shape.square {
+    border-radius: 10px;
+}
+
+/* Legenda */
+.table-legenda {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.legend-color.available {
+    background: rgba(46, 204, 113, 0.7);
+}
+
+.legend-color.reserved {
+    background: rgba(231, 76, 60, 0.7);
+}
+
+.legend-color.selected {
+    background: rgba(52, 152, 219, 0.9);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #777;
+}
+
+.close-modal:hover {
+    color: #333;
+}
+
+.table-preview {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin: 1.5rem 0;
+}
+
+.table-details {
+    flex: 1;
+}
+
+.table-details p {
+    margin-bottom: 0.5rem;
+}
+
+.btn-confirm {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+}
+
+/* Forma qismi */
+.reservation-form-container {
+    flex: 0 0 400px;
+}
+
+.form-footer {
+    margin-top: 2rem;
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+}
+
+.selected-table-info {
+    margin-bottom: 1.5rem;
+}
+
+.selected-table-info h4 {
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+#selected-table-display, #selected-time-display {
+    font-weight: bold;
+    color: #333;
+}
